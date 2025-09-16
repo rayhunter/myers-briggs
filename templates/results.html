@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Your Myers-Briggs Results</h1>
+
+<div class="result-type">{{ mbti_type }}</div>
+
+<div class="description">{{ description }}</div>
+
+<h2>Your Dimension Scores</h2>
+<div class="scores">
+    <div class="score-item">
+        <div class="score-dimension">Energy Source</div>
+        <div style="margin: 10px 0;">
+            {% if scores.E >= scores.I %}
+                <strong>Extraversion ({{ scores.E }}/2)</strong>
+            {% else %}
+                <strong>Introversion ({{ scores.I }}/2)</strong>
+            {% endif %}
+        </div>
+        <div class="score-bar">
+            {% if scores.E >= scores.I %}
+                <div class="score-fill" style="width: {{ (scores.E / 2) * 100 }}%;"></div>
+            {% else %}
+                <div class="score-fill" style="width: {{ (scores.I / 2) * 100 }}%; background-color: #e74c3c;"></div>
+            {% endif %}
+        </div>
+        <div style="font-size: 12px; margin-top: 5px; color: #7f8c8d;">
+            E: {{ scores.E }} | I: {{ scores.I }}
+        </div>
+    </div>
+    
+    <div class="score-item">
+        <div class="score-dimension">Information Processing</div>
+        <div style="margin: 10px 0;">
+            {% if scores.S >= scores.N %}
+                <strong>Sensing ({{ scores.S }}/3)</strong>
+            {% else %}
+                <strong>Intuition ({{ scores.N }}/3)</strong>
+            {% endif %}
+        </div>
+        <div class="score-bar">
+            {% if scores.S >= scores.N %}
+                <div class="score-fill" style="width: {{ (scores.S / 3) * 100 }}%;"></div>
+            {% else %}
+                <div class="score-fill" style="width: {{ (scores.N / 3) * 100 }}%; background-color: #e74c3c;"></div>
+            {% endif %}
+        </div>
+        <div style="font-size: 12px; margin-top: 5px; color: #7f8c8d;">
+            S: {{ scores.S }} | N: {{ scores.N }}
+        </div>
+    </div>
+    
+    <div class="score-item">
+        <div class="score-dimension">Decision Making</div>
+        <div style="margin: 10px 0;">
+            {% if scores.T >= scores.F %}
+                <strong>Thinking ({{ scores.T }}/3)</strong>
+            {% else %}
+                <strong>Feeling ({{ scores.F }}/3)</strong>
+            {% endif %}
+        </div>
+        <div class="score-bar">
+            {% if scores.T >= scores.F %}
+                <div class="score-fill" style="width: {{ (scores.T / 3) * 100 }}%;"></div>
+            {% else %}
+                <div class="score-fill" style="width: {{ (scores.F / 3) * 100 }}%; background-color: #e74c3c;"></div>
+            {% endif %}
+        </div>
+        <div style="font-size: 12px; margin-top: 5px; color: #7f8c8d;">
+            T: {{ scores.T }} | F: {{ scores.F }}
+        </div>
+    </div>
+    
+    <div class="score-item">
+        <div class="score-dimension">Lifestyle Approach</div>
+        <div style="margin: 10px 0;">
+            {% if scores.J >= scores.P %}
+                <strong>Judging ({{ scores.J }}/2)</strong>
+            {% else %}
+                <strong>Perceiving ({{ scores.P }}/2)</strong>
+            {% endif %}
+        </div>
+        <div class="score-bar">
+            {% if scores.J >= scores.P %}
+                <div class="score-fill" style="width: {{ (scores.J / 2) * 100 }}%;"></div>
+            {% else %}
+                <div class="score-fill" style="width: {{ (scores.P / 2) * 100 }}%; background-color: #e74c3c;"></div>
+            {% endif %}
+        </div>
+        <div style="font-size: 12px; margin-top: 5px; color: #7f8c8d;">
+            J: {{ scores.J }} | P: {{ scores.P }}
+        </div>
+    </div>
+</div>
+
+<div style="text-align: center; margin-top: 40px;">
+    <a href="{{ url_for('index') }}" class="btn">Take Test Again</a>
+</div>
+
+<div style="margin-top: 40px; padding: 20px; background-color: #f8f9fa; border-radius: 8px;">
+    <h3 style="color: #2c3e50; margin-top: 0;">Understanding Your Results</h3>
+    <p style="color: #34495e; margin-bottom: 15px;">
+        Your MBTI type is determined by your preferences in four key dimensions:
+    </p>
+    <ul style="color: #34495e; line-height: 1.8;">
+        <li><strong>Energy Source (E/I):</strong> How you prefer to direct your energy and attention</li>
+        <li><strong>Information Processing (S/N):</strong> How you prefer to take in and process information</li>
+        <li><strong>Decision Making (T/F):</strong> How you prefer to make decisions and judgments</li>
+        <li><strong>Lifestyle Approach (J/P):</strong> How you prefer to organize your life and work</li>
+    </ul>
+    <p style="color: #7f8c8d; font-size: 14px; margin-top: 20px;">
+        Note: Close scores in any dimension may indicate you're near the borderline between types and can use both preferences effectively.
+    </p>
+</div>
+{% endblock %}

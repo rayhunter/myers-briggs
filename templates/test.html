@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Myers-Briggs Personality Test</h1>
+
+<form method="POST" action="{{ url_for('submit') }}" id="mbtiForm">
+    {% for question in questions %}
+    <div class="question">
+        <h3>{{ question.id }}. {{ question.question }}</h3>
+        
+        <div class="option">
+            <label>
+                <input type="radio" name="question_{{ question.id }}" value="A" required>
+                <strong>A)</strong> {{ question.option_a }}
+            </label>
+        </div>
+        
+        <div class="option">
+            <label>
+                <input type="radio" name="question_{{ question.id }}" value="B" required>
+                <strong>B)</strong> {{ question.option_b }}
+            </label>
+        </div>
+    </div>
+    {% endfor %}
+    
+    <button type="submit" class="btn" id="submitBtn" disabled>Get My Results</button>
+</form>
+
+<script>
+    // Enable submit button only when all questions are answered
+    const form = document.getElementById('mbtiForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const radioButtons = form.querySelectorAll('input[type="radio"]');
+    
+    function checkFormCompletion() {
+        const totalQuestions = {{ questions|length }};
+        let answeredQuestions = 0;
+        
+        for (let i = 1; i <= totalQuestions; i++) {
+            const questionRadios = form.querySelectorAll(`input[name="question_${i}"]`);
+            for (let radio of questionRadios) {
+                if (radio.checked) {
+                    answeredQuestions++;
+                    break;
+                }
+            }
+        }
+        
+        if (answeredQuestions === totalQuestions) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Get My Results';
+        } else {
+            submitBtn.disabled = true;
+            submitBtn.textContent = `Answer All Questions (${answeredQuestions}/${totalQuestions})`;
+        }
+    }
+    
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', checkFormCompletion);
+    });
+    
+    // Initial check
+    checkFormCompletion();
+</script>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Myers-Briggs Personality Test</h1>
+
+<div style="text-align: center; margin: 40px 0;">
+    <p style="font-size: 18px; color: #34495e; margin-bottom: 30px;">
+        Discover your personality type with this comprehensive 10-question Myers-Briggs assessment. 
+        This test will help you understand your preferences across four key dimensions:
+    </p>
+    
+    <div style="text-align: left; max-width: 600px; margin: 0 auto;">
+        <ul style="font-size: 16px; color: #2c3e50; line-height: 2;">
+            <li><strong>Energy Source:</strong> Extraversion (E) vs Introversion (I)</li>
+            <li><strong>Information Processing:</strong> Sensing (S) vs Intuition (N)</li>
+            <li><strong>Decision Making:</strong> Thinking (T) vs Feeling (F)</li>
+            <li><strong>Lifestyle Approach:</strong> Judging (J) vs Perceiving (P)</li>
+        </ul>
+    </div>
+    
+    <p style="font-size: 16px; color: #7f8c8d; margin: 30px 0;">
+        The test takes approximately 5-10 minutes to complete. Answer honestly based on your natural preferences.
+    </p>
+    
+    <a href="{{ url_for('test') }}" class="btn">Start Test</a>
+</div>
+{% endblock %}
