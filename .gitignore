@@ -20,3 +20,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Large media files
+static/background.jpg
