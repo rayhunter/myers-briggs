@@ -1,8 +1,28 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 import os
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)
+
+# Load configuration based on environment
+if os.environ.get('FLASK_ENV') == 'production':
+    from config import Config
+    app.config.from_object(Config)
+else:
+    from config import DevelopmentConfig
+    app.config.from_object(DevelopmentConfig)
+
+# Set secret key (use environment variable in production)
+app.secret_key = os.environ.get('SECRET_KEY', os.urandom(24))
+
+# Rate limiting to prevent abuse
+limiter = Limiter(
+    app=app,
+    key_func=get_remote_address,
+    default_limits=["200 per day", "50 per hour"],
+    storage_uri="memory://"
+)
 
 # MBTI Questions and their corresponding dimensions
 MBTI_QUESTIONS = [
@@ -144,21 +164,22 @@ def test():
     return render_template('test.html', questions=MBTI_QUESTIONS)
 
 @app.route('/submit', methods=['POST'])
+@limiter.limit("10 per minute")
 def submit():
     answers = {}
     for i in range(1, 11):
         answer = request.form.get(f'question_{i}')
         if answer:
             answers[str(i)] = answer
-    
+
     if len(answers) != 10:
         return redirect(url_for('test'))
-    
+
     mbti_type, scores = calculate_mbti_type(answers)
     session['mbti_type'] = mbti_type
     session['scores'] = scores
     session['answers'] = answers
-    
+
     return redirect(url_for('results'))
 
 @app.route('/results')
