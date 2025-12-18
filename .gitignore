@@ -21,6 +21,7 @@ Thumbs.db
 # Logs
 *.log
 
-# Large media files
+# Large media files (original uncompressed versions)
 static/background.jpg
 static/nubackground.jpg
+static/nubackground-optimized.jpg
